@@ -60,7 +60,8 @@ public class ClientRun {
 			
 			@Override
 			public void loginSuccess(JsonPacket<String> jsonPacket) {
-				System.out.println("loginSuccess");
+				//admin用户可以处理在线用户jsonPacket.getObject() eg:userId1|userId2|........
+				System.out.println("loginSuccess"+jsonPacket.getObject());
 			}
 			
 			@Override

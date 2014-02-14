@@ -44,12 +44,15 @@ public class SendMessageParse extends BaseJsonParse<JsonPacket<SendMessage>>{
 	}
 	
 	@Override
+	/**
+	 * 第三方应用 可重写此方法，处理业务 ，（需配置router.properties） 
+	 */
 	public void parse() {
 		//暂不支持 packet.getObjects()
 		if(null==packet.getObject()){
 			return ;
 		}
-		//TODO 记录接收推送日志
-//		System.out.println("SendMessageParse:"+getPacketVal());
+		//记录接收推送日志
+		System.out.println("SendMessageParse:"+getPacketVal());
 	}
 }
