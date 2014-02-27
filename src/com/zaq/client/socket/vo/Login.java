@@ -53,9 +53,14 @@ public class Login {
 		Login login=new Login();  
         String UID = ClientUtil.getPropertity("client.username");// 用户名
         String PWD = ClientUtil.getPropertity("client.password");// 密码
+        if(null!=ClientUtil.getPropertity("client.companyId")){
+            Long companyId =Long.valueOf(ClientUtil.getPropertity("client.companyId"));// 公司ID
+            login.setCompanyId(companyId);
+        }
         
         login.setPassword(PWD);
         login.setUserName(UID);
+    
         login.setState(STATE_ONLINE);
         
         JsonPacket<Login> packet=new JsonPacket<Login>(login);

@@ -7,7 +7,6 @@ import java.nio.channels.SocketChannel;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -22,7 +21,6 @@ import com.zaq.client.Constants;
 import com.zaq.client.KeepAliveService;
 import com.zaq.client.socket.protocol.JsonPacket;
 import com.zaq.client.socket.util.PacketUtil;
-import com.zaq.client.socket.util.ThreadPool;
 import com.zaq.client.socket.vo.SendMessage;
 import com.zaq.client.socket.vo.ShortMessage;
 /**
@@ -101,7 +99,7 @@ public class PullMessage {
 //			try {//确保消息发送完成
 				if(obj instanceof String){
 					ByteBuffer byteBuffer=PacketUtil.encodePacketToBB((String)obj);
-					
+					//不需要回执的推送
 					if(null==msgTag){
 						return pull(channel,byteBuffer);//立刻发送且回复
 					}
