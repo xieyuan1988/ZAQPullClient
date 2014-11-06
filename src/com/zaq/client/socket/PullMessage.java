@@ -186,13 +186,37 @@ public class PullMessage {
 	 * @param <T>
 	 * @param packet JsonPacket数据包
 	 * @param type  JsonPacket的Type
+	 * isWithoutExpose =true
 	 * @return 返回发送成功状态 true:成功 false:失败
 	 */
 	public  static <T> boolean pull(JsonPacket<T> packet ,Type type)throws Exception{
+//		synchronized (packet) {
+//			long msgTag=MESSAGE_SEND_TAG.incrementAndGet();
+//			packet.setMsgTAG(msgTag);//放置消息TAG
+//			Gson OUTGson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constants.DATE_FORMAT_FULL).create();
+//
+//			return pull(OUTGson.toJson(packet,type),msgTag,false);
+//		}
+		return pull(packet, type, true);
+	}
+	/**
+	 * 
+	 * @param packet JsonPacket数据包
+	 * @param type  JsonPacket的Type
+	 * @param isWithoutExpose gson 序列化方式
+	 * @return
+	 * @throws Exception
+	 */
+	public  static <T> boolean pull(JsonPacket<T> packet ,Type type,boolean isWithoutExpose)throws Exception{
 		synchronized (packet) {
 			long msgTag=MESSAGE_SEND_TAG.incrementAndGet();
 			packet.setMsgTAG(msgTag);//放置消息TAG
-			Gson OUTGson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constants.DATE_FORMAT_FULL).create();
+			Gson OUTGson=null;
+			if(isWithoutExpose){
+				OUTGson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setDateFormat(Constants.DATE_FORMAT_FULL).create();
+			}else{
+				OUTGson=new GsonBuilder().setDateFormat(Constants.DATE_FORMAT_FULL).create();
+			}
 
 			return pull(OUTGson.toJson(packet,type),msgTag,false);
 		}
